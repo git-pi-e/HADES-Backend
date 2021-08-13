@@ -1,12 +1,13 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const createJWT = require("../utils/auth");
+const createJWT = require("../utils/createJWT");
 
 const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 exports.signup = (req, res, next) => {
-    let { name, email, password, password_confirmation } = req.body; let errors = [];
+    let { name, email, password } = req.body;
+    let errors = [];
     if (!name) {
         errors.push({ name: "required" });
     }
@@ -28,7 +29,7 @@ exports.signup = (req, res, next) => {
     //     errors.push({ password: "mismatch" });
     // }
     if (errors.length > 0) {
-        return res.status(422).json({ errors: errors });
+        return res.status(422).json({ errors: errors, message: 'Multiple errors while signing in, please retry or something' });
     }
 
     User.findOne({ email: email })
@@ -54,7 +55,8 @@ exports.signup = (req, res, next) => {
                             })
                             .catch(err => {
                                 res.status(500).json({
-                                    errors: [{ error: err }]
+                                    errors: [{ error: err }],
+                                    message: 'Password hashing error during signup'
                                 });
                             });
                     });
@@ -62,7 +64,8 @@ exports.signup = (req, res, next) => {
             }
         }).catch(err => {
             res.status(500).json({
-                errors: [{ error: 'Something went wrong' }]
+                errors: [{ error: err }],
+                message: 'Something went wrong, error finding user'
             });
         })
 }
@@ -100,7 +103,7 @@ exports.signin = (req, res) => {
                 );
                 jwt.verify(access_token, process.env.TOKEN_SECRET, (err, decoded) => {
                     if (err) {
-                        res.status(500).json({ erros: err });
+                        res.status(500).json({ errors: err });
                     }
                     if (decoded) {
                         return res.status(200).json({
@@ -111,10 +114,10 @@ exports.signin = (req, res) => {
                     }
                 });
             }).catch(err => {
-                res.status(500).json({ errors: err });
+                res.status(500).json({ errors: err, message: 'Password hashing error during sign In' });
             });
         }
     }).catch(err => {
-        res.status(500).json({ errors: err });
+        res.status(500).json({ errors: err, message: 'User Sign In error' });
     });
 }

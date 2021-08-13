@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
 // const http = require('http');
 
 require('dotenv').config(); 
@@ -14,7 +15,7 @@ mongoose
         useCreateIndex: true,
         useUnifiedTopology: true
     })
-    .then(() => console.log('DB Connected'));
+    .then(() => console.log('DB Connected mate')).catch(err => console.log(err));
 
 
 //app
@@ -22,22 +23,31 @@ const app = express();
 
 //import routes
 const authRoutes = require('./routes/auth');
+const dishRoutes = require('./routes/dishes');
+
 const db = require('./models/User');
 
-
 //middlewares
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
-mongoose.Promise = global.Promise; // to avoid deprecated warnings
-
 app.use(morgan('dev'));
+// mongoose.Promise = global.Promise; // no longer needed
 
-//routes middleware
+//routes middleware - routeHandlers
 app.use('/api', authRoutes);
+app.use('/dishes', dishRoutes);
 
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Arise MERN developers',
+        path: req.path,
+        method: req.method
+    });
+});
 
+//start server
 const port = process.env.PORT || 5000;
 // const server = http.createServer(app);
 app.listen(port, () => {
-    console.log(`Server is running on ${port}`)
+    console.log(`Server is running lmao, listening on ${port}`)
 });
