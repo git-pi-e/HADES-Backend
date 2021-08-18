@@ -12,10 +12,7 @@ let userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    cart: {
-        type: Array,
-        default: []
-    }
+    cart: [{ type: mongoose.Schema.ObjectId, ref: 'Dish' }],
     },
     {
     timestamps: true,

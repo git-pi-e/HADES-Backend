@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const dishSchema = new mongoose.Schema({
-    name: {
+    dName: {
         type: String,
         required: [true, "Please include the product name"],
     },
-    price: {
+    dPrice: {
         type: Number,
         required: [true, "Please include the product price"],
     },
-    restaurant: {
+    rName: {
         type: String,
         required: [true, "Please include the restaurant name"],
     }
