@@ -2,17 +2,22 @@ const mongoose = require("mongoose");
 const dishSchema = new mongoose.Schema({
     dName: {
         type: String,
-        required: [true, "Please include the product name"],
-    },
-    dPrice: {
-        type: Number,
-        required: [true, "Please include the product price"],
+        required: true,
     },
     rName: {
         type: String,
-        required: [true, "Please include the restaurant name"],
+        required: true,
+    },
+    dPrice: {
+        type: Number,
+        required: true,
     }
-});
+},
+    {
+        timestamps: false,
+        collection: 'dishes'
+    }
+);
 
 const Dish = mongoose.model("Dish", dishSchema);
 module.exports = Dish;
