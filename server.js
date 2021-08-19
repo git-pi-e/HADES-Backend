@@ -22,7 +22,7 @@ mongoose
 const app = express();
 
 //import routes
-const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 const dishRoutes = require('./routes/dishes');
 
 const db = require('./models/User');
@@ -34,7 +34,7 @@ app.use(morgan('dev'));
 // mongoose.Promise = global.Promise; // no longer needed
 
 //routes middleware - routeHandlers
-app.use('/api', authRoutes);
+app.use('/user', userRoutes);
 app.use('/dishes', dishRoutes);
 
 app.get('/', (req, res) => {

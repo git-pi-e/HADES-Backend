@@ -11,6 +11,10 @@ const dishSchema = new mongoose.Schema({
     dPrice: {
         type: Number,
         required: true,
+    },
+    dImgUrl: {
+        type: String,
+        required: true,
     }
 },
     {

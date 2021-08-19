@@ -114,7 +114,7 @@ exports.signin = (req, res) => {
                     }
                 });
             }).catch(err => {
-                res.status(500).json({ errors: err, message: 'Password hashing error during sign In' });
+                res.status(500).json({ errors: err, methhod: req.method, message: 'Error finding the user you requested' });
             });
         }
     }).catch(err => {
@@ -129,3 +129,9 @@ exports.signin = (req, res) => {
 //     }).populate();
 
 // }
+exports.getCart = async (id) => {
+    return User.findById(id)
+        .populate('cart').exec((err, cart) => {
+            console.log("Populated User " + cart);
+        })
+}
