@@ -48,15 +48,12 @@ exports.signup = (req, res, next) => {
                         user.password = hash;
                         user.save()
                             .then(response => {
-                                res.status(200).json({
-                                    success: true,
-                                    result: response
-                                })
+                                res.status(200).send(response)
                             })
                             .catch(err => {
                                 res.status(500).json({
                                     errors: [{ error: err }],
-                                    message: 'Password hashing error during signup'
+                                    message: 'Error saving a new user during signup'
                                 });
                             });
                     });
@@ -65,7 +62,7 @@ exports.signup = (req, res, next) => {
         }).catch(err => {
             res.status(500).json({
                 errors: [{ error: err }],
-                message: 'Something went wrong, error finding user'
+                message: 'Something went wrong, error during signup'
             });
         })
 }
@@ -90,7 +87,10 @@ exports.signin = (req, res) => {
                 errors: [{ user: "not found" }],
             });
         } else {
+            // console.log('Userpass: ', user.password);
+            // console.log('Pass: ', password);
             bcrypt.compare(password, user.password).then(isMatch => {
+                console.log('isMatch: ', isMatch);
                 if (!isMatch) {
                     return res.status(400).json({
                         errors: [{ password: "incorrect" }]
@@ -101,6 +101,7 @@ exports.signin = (req, res) => {
                     user._id,
                     3600
                 );
+                console.log('access_token: ', access_token);
                 jwt.verify(access_token, process.env.TOKEN_SECRET, (err, decoded) => {
                     if (err) {
                         res.status(500).json({ errors: err });
@@ -130,8 +131,6 @@ exports.signin = (req, res) => {
 
 // }
 exports.getCart = async (id) => {
-    return User.findById(id)
-        .populate('cart').exec((err, cart) => {
-            console.log("Populated User " + cart);
-        })
+    const cart = await User.findById(id).populate('dishes');
+    return cart;
 }

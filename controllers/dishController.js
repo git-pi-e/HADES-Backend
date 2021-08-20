@@ -11,13 +11,9 @@ const dishById = async (id) => {
 
 exports.getDishes = async (req, res) => {
     try {
-        let dishes = await allDishes();
- 
-        res.status(200).json({
-            method: req.method,
-            status: true,
-            data: dishes,
-        })
+        let dishes = await allDishes(); 
+        res.status(200).send(dishes);
+        
     } catch (err) {
         console.log(err)
         res.status(500).json({
