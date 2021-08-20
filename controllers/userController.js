@@ -48,7 +48,7 @@ exports.signup = (req, res, next) => {
                         user.password = hash;
                         user.save()
                             .then(response => {
-                                res.status(200).send(response)
+                                res.status(200).send(response);
                             })
                             .catch(err => {
                                 res.status(500).json({
@@ -96,11 +96,13 @@ exports.signin = (req, res) => {
                         errors: [{ password: "incorrect" }]
                     });
                 }
+                console.log(user);
                 let access_token = createJWT(
                     user.email,
                     user._id,
-                    3600
+                    3000
                 );
+
                 console.log('access_token: ', access_token);
                 jwt.verify(access_token, process.env.TOKEN_SECRET, (err, decoded) => {
                     if (err) {
@@ -115,22 +117,11 @@ exports.signin = (req, res) => {
                     }
                 });
             }).catch(err => {
-                res.status(500).json({ errors: err, methhod: req.method, message: 'Error finding the user you requested' });
+                res.status(500).json({ errors: err, method: req.method, message: 'Error finding the user you requested' });
+                console.log(err);
             });
         }
     }).catch(err => {
         res.status(500).json({ errors: err, message: 'User Sign In error' });
     });
-}
-
-// exports.addCart = (req, res) => {
-//     for(dish)
-//     const dish = new Dish({
-        
-//     }).populate();
-
-// }
-exports.getCart = async (id) => {
-    const cart = await User.findById(id).populate('dishes');
-    return cart;
 }
