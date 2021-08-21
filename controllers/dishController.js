@@ -1,7 +1,7 @@
 const Dish = require("../models/Dish");
 
 const allDishes = async () => {
-    const dishes = await Dish.find();
+    const dishes = await Dish.find().lean();
     return dishes;
 };
 const dishById = async (id) => {
