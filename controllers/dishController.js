@@ -5,7 +5,7 @@ const allDishes = async () => {
     return dishes;
 };
 const dishById = async (id) => {
-    const dish = await Dish.findById(id);
+    const dish = await Dish.findById(id).lean();
     return dish;
 }
 

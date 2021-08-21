@@ -15,8 +15,10 @@ mongoose
         useCreateIndex: true,
         useUnifiedTopology: true
     })
-    .then(() => console.log('DB Connected mate')).catch(err => console.log(err));
-
+    .then(() => console.log('DB Connected mate')).catch(err => {
+        throw new DbConnectionError();
+        console.log(err);
+    });
 
 //app
 const app = express();
