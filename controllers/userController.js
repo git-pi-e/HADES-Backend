@@ -123,5 +123,6 @@ exports.signin = (req, res) => {
         }
     }).catch(err => {
         res.status(500).json({ errors: err, message: 'User Sign In error' });
+        console.log(err);
     });
 }
