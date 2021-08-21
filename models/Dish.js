@@ -19,8 +19,7 @@ const dishSchema = new mongoose.Schema({
 },
     {
         timestamps: false,
-        collection: 'dishes',
-        bufferCommands: false
+        collection: 'dishes'
     }
 );
 
