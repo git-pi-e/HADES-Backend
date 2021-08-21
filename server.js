@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 require('dotenv').config(); 
     
 // Connect to database
-mongoose
+await mongoose
     .connect(process.env.RESTAURANT_DB_URI, {
         useNewUrlParser: true,
         useCreateIndex: true,
