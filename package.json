@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend for Website HADES",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
   "engines": {
